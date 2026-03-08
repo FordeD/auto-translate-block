@@ -43,6 +43,10 @@
     "message": "Translation complete!",
     "description": "Translation complete status"
   },
+  "translationFailed": {
+    "message": "Translation failed. See console for details.",
+    "description": "Translation failed notification"
+  },
   "selectionCancelled": {
     "message": "Selection cancelled",
     "description": "Selection cancelled status"
@@ -118,6 +122,10 @@
   "translating": {
     "message": "Translating...",
     "description": "Translating notification"
+  },
+  "translationFailed": {
+    "message": "Translation failed. See console for details.",
+    "description": "Translation failed notification"
   },
   "translationError": {
     "message": "Translation error:",

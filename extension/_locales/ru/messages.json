@@ -43,6 +43,10 @@
     "message": "Перевод завершён!",
     "description": "Статус завершения перевода"
   },
+  "translationFailed": {
+    "message": "Перевод не удался. Подробности в консоли.",
+    "description": "Уведомление о неудачном переводе"
+  },
   "selectionCancelled": {
     "message": "Выбор отменён",
     "description": "Статус отмены выбора"
@@ -118,6 +122,10 @@
   "translating": {
     "message": "Переводим...",
     "description": "Уведомление о переводе"
+  },
+  "translationFailed": {
+    "message": "Перевод не удался. Подробности в консоли.",
+    "description": "Уведомление о неудачном переводе"
   },
   "translationError": {
     "message": "Ошибка перевода:",

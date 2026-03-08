@@ -3,6 +3,7 @@ let selectedElement = null;
 let highlightOverlay = null;
 let fromLanguage = 'auto';
 let toLanguage = 'en';
+let uiLanguage = 'en';
 
 let settings = {
   highlightColor: '#00bfff',
@@ -13,6 +14,7 @@ let settings = {
 };
 
 loadSettings();
+loadUILanguage();
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.action === 'startSelection') {
@@ -40,6 +42,32 @@ async function loadSettings() {
   } catch (error) {
     console.error('Error loading settings:', error);
   }
+}
+
+async function loadUILanguage() {
+  try {
+    const result = await chrome.storage.sync.get(['uiLanguage']);
+    uiLanguage = result.uiLanguage || 'en';
+  } catch (error) {
+    console.error('Error loading UI language:', error);
+  }
+}
+
+const messages = {
+  en: {
+    translating: 'Translating...',
+    translationComplete: 'Translation complete!',
+    translationFailed: 'Translation failed. See console for details.'
+  },
+  ru: {
+    translating: 'Переводим...',
+    translationComplete: 'Перевод завершён!',
+    translationFailed: 'Перевод не удался. Подробности в консоли.'
+  }
+};
+
+function getMessage(key) {
+  return messages[uiLanguage]?.[key] || messages.en?.[key] || key;
 }
 
 function startSelection(fromLang, toLang) {
@@ -133,16 +161,16 @@ function endSelection() {
 async function translateElement(element) {
   if (!element) return;
   try {
-    showNotification('Translating...', 'info');
+    showNotification(getMessage('translating'), 'idle');
     await translateNode(element);
     if (settings.translateAttributes) {
-      translateAttributes(element);
+      await translateAttributes(element);
     }
-    showNotification('Translation complete!', 'success');
+    showNotification(getMessage('translationComplete'), 'success');
     chrome.runtime.sendMessage({ action: 'selectionComplete' });
   } catch (error) {
     console.error('Translation error:', error);
-    showNotification('Translation error: ' + error.message, 'error');
+    showNotification(getMessage('translationFailed'), 'error');
     chrome.runtime.sendMessage({ action: 'translationError', error: error.message });
   }
 }
@@ -276,15 +304,21 @@ function showNotification(message, type = 'info') {
   if (!settings.showNotifications) return;
   const existing = document.getElementById('auto-translate-notification');
   if (existing) existing.remove();
+  
   const notification = document.createElement('div');
   notification.id = 'auto-translate-notification';
-  notification.textContent = message;
+  
   const colors = {
     success: { bg: '#1e8e3e', text: '#fff' },
     error: { bg: '#d93025', text: '#fff' },
-    info: { bg: '#1a73e8', text: '#fff' }
+    info: { bg: '#1a73e8', text: '#fff' },
+    idle: { bg: '#ff9800', text: '#fff' }
   };
   const color = colors[type] || colors.info;
+  
+  const spinner = type === 'idle' ? '<span style="display:inline-block;width:12px;height:12px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin 0.8s linear infinite;margin-right:8px;vertical-align:middle;"></span>' : '';
+  
+  notification.innerHTML = spinner + '<span style="vertical-align:middle;">' + message + '</span>';
   notification.style.cssText = `
     position: fixed;
     bottom: 20px;
@@ -298,12 +332,17 @@ function showNotification(message, type = 'info') {
     z-index: 2147483647;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     animation: slideIn 0.3s ease;
+    display: flex;
+    align-items: center;
   `;
   document.body.appendChild(notification);
-  setTimeout(() => {
-    notification.style.animation = 'slideOut 0.3s ease';
-    setTimeout(() => notification.remove(), 300);
-  }, 3000);
+  
+  if (type !== 'idle') {
+    setTimeout(() => {
+      notification.style.animation = 'slideOut 0.3s ease';
+      setTimeout(() => notification.remove(), 300);
+    }, 3000);
+  }
 }
 
 const style = document.createElement('style');
@@ -315,6 +354,9 @@ style.textContent = `
   @keyframes slideOut {
     from { transform: translateX(0); opacity: 1; }
     to { transform: translateX(100%); opacity: 0; }
+  }
+  @keyframes spin {
+    to { transform: rotate(360deg); }
   }
 `;
 document.head.appendChild(style);
