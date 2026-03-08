@@ -147,7 +147,7 @@ async function translateElement(element) {
   }
 }
 
-async function collectTextNodes(node, textNodes = []) {
+function collectTextNodes(node, textNodes = []) {
   const skipTags = ['SCRIPT', 'STYLE', 'NOSCRIPT', 'IFRAME', 'SVG', 'CANVAS', 'CODE', 'PRE'];
   
   if (!node) {
@@ -180,15 +180,15 @@ async function collectTextNodes(node, textNodes = []) {
 async function translateTextBatch(texts) {
   const sourceLang = fromLanguage === 'auto' ? 'auto' : fromLanguage;
   const targetLang = toLanguage;
-  
+
   const body = {
     texts: texts,
     from: sourceLang,
     to: targetLang
   };
-  
+
   const authHeaders = await AuthUtils.generateAuthHeaders('POST', '/translate/batch', body);
-  
+
   const response = await fetch('http://localhost:3000/translate/batch', {
     method: 'POST',
     headers: {
@@ -197,12 +197,12 @@ async function translateTextBatch(texts) {
     },
     body: JSON.stringify(body)
   });
-  
+
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({}));
     throw new Error(`Proxy server error: ${response.status} - ${errorData.error || 'Unknown error'}`);
   }
-  
+
   const data = await response.json();
   return data.translations;
 }
@@ -215,7 +215,7 @@ async function translateNode(node) {
 
   const textNodes = collectTextNodes(node, []);
 
-  if (textNodes.length === 0) {
+  if (!textNodes || textNodes.length === 0) {
     return;
   }
 
@@ -232,7 +232,7 @@ async function translateNode(node) {
       }
     }
   } catch (error) {
-    console.error('[TranslateNode] Error:', error);
+    console.error('[translateNode] Error:', error);
   }
 }
 
