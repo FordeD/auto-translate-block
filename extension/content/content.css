@@ -1,0 +1,65 @@
+/* Styles for Auto Translate Block content script */
+
+/* Highlight overlay for element selection */
+#auto-translate-highlight {
+  position: fixed;
+  pointer-events: none;
+  border: 2px solid #00bfff;
+  background-color: #00bfff;
+  opacity: 0.3;
+  z-index: 2147483647;
+  transition: all 0.1s ease;
+  display: none;
+}
+
+/* Notification styles */
+#auto-translate-notification {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  z-index: 2147483647;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  animation: slideIn 0.3s ease;
+}
+
+#auto-translate-notification.success {
+  background-color: #1e8e3e;
+  color: #fff;
+}
+
+#auto-translate-notification.error {
+  background-color: #d93025;
+  color: #fff;
+}
+
+#auto-translate-notification.info {
+  background-color: #1a73e8;
+  color: #fff;
+}
+
+/* Animation keyframes */
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOut {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}

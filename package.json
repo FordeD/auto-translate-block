@@ -1,0 +1,23 @@
+{
+  "name": "auto-translate-block",
+  "version": "1.0.0",
+  "description": "Chrome extension for automatic translation of HTML blocks with local proxy server",
+  "scripts": {
+    "install:server": "cd server && npm install",
+    "start:server": "cd server && npm start",
+    "install:all": "npm run install:server"
+  },
+  "keywords": [
+    "chrome-extension",
+    "translate",
+    "google-translate",
+    "proxy"
+  ],
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": ""
+  }
+}
+

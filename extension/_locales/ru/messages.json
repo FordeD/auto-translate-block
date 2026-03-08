@@ -1,0 +1,186 @@
+{
+  "extensionName": {
+    "message": "Auto Translate Block",
+    "description": "Название расширения"
+  },
+  "extensionDescription": {
+    "message": "Автоматический перевод текста внутри выбранного HTML блока",
+    "description": "Описание расширения"
+  },
+  "title": {
+    "message": "Перевод блока",
+    "description": "Заголовок popup"
+  },
+  "fromLanguage": {
+    "message": "С:",
+    "description": "Метка исходного языка"
+  },
+  "toLanguage": {
+    "message": "На:",
+    "description": "Метка целевого языка"
+  },
+  "autoDetect": {
+    "message": "Автоопределение",
+    "description": "Опция автоопределения языка"
+  },
+  "selectElementBtn": {
+    "message": "📍 Выбрать HTML элемент",
+    "description": "Кнопка выбора элемента"
+  },
+  "cancelBtn": {
+    "message": "✕ Отмена",
+    "description": "Кнопка отмены"
+  },
+  "settingsLink": {
+    "message": "⚙️ Настройки",
+    "description": "Ссылка на настройки"
+  },
+  "selectingStatus": {
+    "message": "Выберите элемент на странице...",
+    "description": "Статус при выборе элемента"
+  },
+  "translationComplete": {
+    "message": "Перевод завершён!",
+    "description": "Статус завершения перевода"
+  },
+  "selectionCancelled": {
+    "message": "Выбор отменён",
+    "description": "Статус отмены выбора"
+  },
+  "settingsTitle": {
+    "message": "Настройки Auto Translate Block",
+    "description": "Заголовок страницы настроек"
+  },
+  "languageSettings": {
+    "message": "Языковые настройки",
+    "description": "Секция языковых настроек"
+  },
+  "translationSettings": {
+    "message": "Настройки перевода",
+    "description": "Секция настроек перевода"
+  },
+  "appearanceSettings": {
+    "message": "Внешний вид",
+    "description": "Секция настроек внешнего вида"
+  },
+  "advancedSettings": {
+    "message": "Дополнительно",
+    "description": "Секция дополнительных настроек"
+  },
+  "sourceLanguage": {
+    "message": "Исходный язык:",
+    "description": "Метка исходного языка в настройках"
+  },
+  "targetLanguage": {
+    "message": "Целевой язык:",
+    "description": "Метка целевого языка в настройках"
+  },
+  "highlightColor": {
+    "message": "Цвет выделения:",
+    "description": "Метка цвета выделения"
+  },
+  "highlightOpacity": {
+    "message": "Прозрачность выделения:",
+    "description": "Метка прозрачности выделения"
+  },
+  "preserveFormatting": {
+    "message": "Сохранять HTML форматирование",
+    "description": "Чекбокс сохранения форматирования"
+  },
+  "translateAttributes": {
+    "message": "Переводить атрибуты alt и title",
+    "description": "Чекбокс перевода атрибутов"
+  },
+  "showNotifications": {
+    "message": "Показывать уведомления о переводе",
+    "description": "Чекбокс показа уведомлений"
+  },
+  "saveSettings": {
+    "message": "Сохранить настройки",
+    "description": "Кнопка сохранения настроек"
+  },
+  "resetSettings": {
+    "message": "Сбросить по умолчанию",
+    "description": "Кнопка сброса настроек"
+  },
+  "settingsSaved": {
+    "message": "Настройки сохранены!",
+    "description": "Сообщение о сохранении настроек"
+  },
+  "settingsReset": {
+    "message": "Настройки сброшены",
+    "description": "Сообщение о сбросе настроек"
+  },
+  "errorSaving": {
+    "message": "Ошибка сохранения:",
+    "description": "Сообщение об ошибке сохранения"
+  },
+  "translating": {
+    "message": "Переводим...",
+    "description": "Уведомление о переводе"
+  },
+  "translationError": {
+    "message": "Ошибка перевода:",
+    "description": "Уведомление об ошибке перевода"
+  },
+  "english": {
+    "message": "Английский",
+    "description": "Английский язык"
+  },
+  "russian": {
+    "message": "Русский",
+    "description": "Русский язык"
+  },
+  "spanish": {
+    "message": "Испанский",
+    "description": "Испанский язык"
+  },
+  "french": {
+    "message": "Французский",
+    "description": "Французский язык"
+  },
+  "german": {
+    "message": "Немецкий",
+    "description": "Немецкий язык"
+  },
+  "italian": {
+    "message": "Итальянский",
+    "description": "Итальянский язык"
+  },
+  "portuguese": {
+    "message": "Португальский",
+    "description": "Португальский язык"
+  },
+  "chinese": {
+    "message": "Китайский",
+    "description": "Китайский язык"
+  },
+  "japanese": {
+    "message": "Японский",
+    "description": "Японский язык"
+  },
+  "korean": {
+    "message": "Корейский",
+    "description": "Корейский язык"
+  },
+  "arabic": {
+    "message": "Арабский",
+    "description": "Арабский язык"
+  },
+  "hindi": {
+    "message": "Хинди",
+    "description": "Язык хинди"
+  },
+  "turkish": {
+    "message": "Турецкий",
+    "description": "Турецкий язык"
+  },
+  "polish": {
+    "message": "Польский",
+    "description": "Польский язык"
+  },
+  "ukrainian": {
+    "message": "Украинский",
+    "description": "Украинский язык"
+  }
+}

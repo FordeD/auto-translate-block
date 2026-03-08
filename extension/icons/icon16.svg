@@ -1,0 +1,5 @@
+<!-- Placeholder icon - Replace with actual 16x16 PNG icon -->
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+  <circle cx="8" cy="8" r="7" fill="#1a73e8"/>
+  <text x="8" y="11" text-anchor="middle" fill="white" font-size="8" font-family="Arial">T</text>
+</svg>

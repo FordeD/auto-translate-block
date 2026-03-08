@@ -1,0 +1,186 @@
+{
+  "extensionName": {
+    "message": "Auto Translate Block",
+    "description": "Extension name"
+  },
+  "extensionDescription": {
+    "message": "Automatically translate text within a selected HTML block",
+    "description": "Extension description"
+  },
+  "title": {
+    "message": "Translate Block",
+    "description": "Popup title"
+  },
+  "fromLanguage": {
+    "message": "From:",
+    "description": "Source language label"
+  },
+  "toLanguage": {
+    "message": "To:",
+    "description": "Target language label"
+  },
+  "autoDetect": {
+    "message": "Auto Detect",
+    "description": "Auto-detect language option"
+  },
+  "selectElementBtn": {
+    "message": "📍 Select HTML Element",
+    "description": "Select element button"
+  },
+  "cancelBtn": {
+    "message": "✕ Cancel",
+    "description": "Cancel button"
+  },
+  "settingsLink": {
+    "message": "⚙️ Settings",
+    "description": "Settings link"
+  },
+  "selectingStatus": {
+    "message": "Select an element on the page...",
+    "description": "Status when selecting element"
+  },
+  "translationComplete": {
+    "message": "Translation complete!",
+    "description": "Translation complete status"
+  },
+  "selectionCancelled": {
+    "message": "Selection cancelled",
+    "description": "Selection cancelled status"
+  },
+  "settingsTitle": {
+    "message": "Auto Translate Block Settings",
+    "description": "Settings page title"
+  },
+  "languageSettings": {
+    "message": "Language Settings",
+    "description": "Language settings section"
+  },
+  "translationSettings": {
+    "message": "Translation Settings",
+    "description": "Translation settings section"
+  },
+  "appearanceSettings": {
+    "message": "Appearance",
+    "description": "Appearance settings section"
+  },
+  "advancedSettings": {
+    "message": "Advanced",
+    "description": "Advanced settings section"
+  },
+  "sourceLanguage": {
+    "message": "Source Language:",
+    "description": "Source language label in settings"
+  },
+  "targetLanguage": {
+    "message": "Target Language:",
+    "description": "Target language label in settings"
+  },
+  "highlightColor": {
+    "message": "Highlight Color:",
+    "description": "Highlight color label"
+  },
+  "highlightOpacity": {
+    "message": "Highlight Opacity:",
+    "description": "Highlight opacity label"
+  },
+  "preserveFormatting": {
+    "message": "Preserve HTML formatting",
+    "description": "Preserve formatting checkbox"
+  },
+  "translateAttributes": {
+    "message": "Translate alt and title attributes",
+    "description": "Translate attributes checkbox"
+  },
+  "showNotifications": {
+    "message": "Show translation notifications",
+    "description": "Show notifications checkbox"
+  },
+  "saveSettings": {
+    "message": "Save Settings",
+    "description": "Save settings button"
+  },
+  "resetSettings": {
+    "message": "Reset to Defaults",
+    "description": "Reset settings button"
+  },
+  "settingsSaved": {
+    "message": "Settings saved successfully!",
+    "description": "Settings saved message"
+  },
+  "settingsReset": {
+    "message": "Settings reset to defaults",
+    "description": "Settings reset message"
+  },
+  "errorSaving": {
+    "message": "Error saving settings:",
+    "description": "Error saving message"
+  },
+  "translating": {
+    "message": "Translating...",
+    "description": "Translating notification"
+  },
+  "translationError": {
+    "message": "Translation error:",
+    "description": "Translation error notification"
+  },
+  "english": {
+    "message": "English",
+    "description": "English language"
+  },
+  "russian": {
+    "message": "Russian",
+    "description": "Russian language"
+  },
+  "spanish": {
+    "message": "Spanish",
+    "description": "Spanish language"
+  },
+  "french": {
+    "message": "French",
+    "description": "French language"
+  },
+  "german": {
+    "message": "German",
+    "description": "German language"
+  },
+  "italian": {
+    "message": "Italian",
+    "description": "Italian language"
+  },
+  "portuguese": {
+    "message": "Portuguese",
+    "description": "Portuguese language"
+  },
+  "chinese": {
+    "message": "Chinese",
+    "description": "Chinese language"
+  },
+  "japanese": {
+    "message": "Japanese",
+    "description": "Japanese language"
+  },
+  "korean": {
+    "message": "Korean",
+    "description": "Korean language"
+  },
+  "arabic": {
+    "message": "Arabic",
+    "description": "Arabic language"
+  },
+  "hindi": {
+    "message": "Hindi",
+    "description": "Hindi language"
+  },
+  "turkish": {
+    "message": "Turkish",
+    "description": "Turkish language"
+  },
+  "polish": {
+    "message": "Polish",
+    "description": "Polish language"
+  },
+  "ukrainian": {
+    "message": "Ukrainian",
+    "description": "Ukrainian language"
+  }
+}

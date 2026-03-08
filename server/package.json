@@ -1,0 +1,1 @@
+{"name":"translator-proxy","version":"1.0.0","description":"Local proxy server for Google Translate to bypass CORS","main":"server.js","scripts":{"start":"node server.js","dev":"node server.js"},"keywords":["proxy","translate","google"],"author":"","license":"MIT","dependencies":{"cors":"^2.8.5","express":"^4.18.2","@iamtraction/google-translate":"^2.0.1","crypto":"^1.0.1"}}
