@@ -109,27 +109,67 @@ app.use((req, res, next) => {
 app.post("/translate", async (req, res) => {
   try {
     const { text, from, to } = req.body;
-    
+
     if (!text) {
       return res.status(400).json({ error: "Text is required" });
     }
-    
+
     const sourceLang = from === "auto" ? "auto" : (from || "auto");
     const targetLang = to || "ru";
-    
+
     const result = await translate(text, { from: sourceLang, to: targetLang });
-    
-    res.json({ 
-      success: true, 
+
+    res.json({
+      success: true,
       translatedText: result.text,
       original: text
     });
-    
+
   } catch (error) {
     console.error("[Proxy] Error:", error.message);
-    res.status(500).json({ 
-      success: false, 
-      error: error.message 
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
+  }
+});
+
+// Batch translate endpoint
+app.post("/translate/batch", async (req, res) => {
+  try {
+    const { texts, from, to } = req.body;
+
+    if (!texts || !Array.isArray(texts)) {
+      return res.status(400).json({ error: "Texts array is required" });
+    }
+
+    const sourceLang = from === "auto" ? "auto" : (from || "auto");
+    const targetLang = to || "ru";
+
+    // Process all translations in parallel using Promise.all
+    const translationPromises = texts.map(async (text) => {
+      try {
+        const result = await translate(text, { from: sourceLang, to: targetLang });
+        return result.text;
+      } catch (error) {
+        console.error("[Proxy] Batch translation error for text:", text, error.message);
+        return text; // Return original text on error
+      }
+    });
+
+    const translations = await Promise.all(translationPromises);
+
+    res.json({
+      success: true,
+      translations,
+      count: translations.length
+    });
+
+  } catch (error) {
+    console.error("[Proxy] Batch error:", error.message);
+    res.status(500).json({
+      success: false,
+      error: error.message
     });
   }
 });

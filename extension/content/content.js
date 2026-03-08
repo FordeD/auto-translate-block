@@ -147,130 +147,128 @@ async function translateElement(element) {
   }
 }
 
+async function collectTextNodes(node, textNodes = []) {
+  const skipTags = ['SCRIPT', 'STYLE', 'NOSCRIPT', 'IFRAME', 'SVG', 'CANVAS', 'CODE', 'PRE'];
+  
+  if (!node) {
+    return textNodes;
+  }
+  
+  if (node.nodeType === 1 && skipTags.includes(node.tagName)) {
+    return textNodes;
+  }
+  
+  if (node.nodeType === 3) {
+    const text = node.textContent;
+    const trimmedText = text.trim();
+    if (trimmedText) {
+      textNodes.push({ node, text, trimmedText, leadingWhitespace: text.match(/^\s*/)?.[0] || '', trailingWhitespace: text.match(/\s*$/)?.[0] || '' });
+    }
+    return textNodes;
+  }
+  
+  if (node.nodeType === 1) {
+    const children = Array.from(node.childNodes);
+    for (const child of children) {
+      collectTextNodes(child, textNodes);
+    }
+  }
+  
+  return textNodes;
+}
+
+async function translateTextBatch(texts) {
+  const sourceLang = fromLanguage === 'auto' ? 'auto' : fromLanguage;
+  const targetLang = toLanguage;
+  
+  const body = {
+    texts: texts,
+    from: sourceLang,
+    to: targetLang
+  };
+  
+  const authHeaders = await AuthUtils.generateAuthHeaders('POST', '/translate/batch', body);
+  
+  const response = await fetch('http://localhost:3000/translate/batch', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      ...authHeaders
+    },
+    body: JSON.stringify(body)
+  });
+  
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(`Proxy server error: ${response.status} - ${errorData.error || 'Unknown error'}`);
+  }
+  
+  const data = await response.json();
+  return data.translations;
+}
+
 async function translateNode(node) {
   const skipTags = ['SCRIPT', 'STYLE', 'NOSCRIPT', 'IFRAME', 'SVG', 'CANVAS', 'CODE', 'PRE'];
   if (node.nodeType === 1 && skipTags.includes(node.tagName)) {
     return;
   }
-  if (node.nodeType === 3) {
-    const text = node.textContent;
-    const trimmedText = text.trim();
-    if (trimmedText) {
-      try {
-        const translated = await translateText(trimmedText);
-        if (translated && translated !== trimmedText) {
-          const leadingWhitespace = text.match(/^\s*/)?.[0] || '';
-          const trailingWhitespace = text.match(/\s*$/)?.[0] || '';
-          node.textContent = leadingWhitespace + translated + trailingWhitespace;
-        }
-      } catch (error) {
-        console.error('[TranslateNode] Error:', error);
+
+  const textNodes = collectTextNodes(node, []);
+
+  if (textNodes.length === 0) {
+    return;
+  }
+
+  try {
+    const textsToTranslate = textNodes.map(t => t.trimmedText);
+    const translations = await translateTextBatch(textsToTranslate);
+
+    for (let i = 0; i < textNodes.length; i++) {
+      const { node: textNode, leadingWhitespace, trailingWhitespace } = textNodes[i];
+      const translated = translations[i];
+
+      if (translated && translated !== textNodes[i].trimmedText) {
+        textNode.textContent = leadingWhitespace + translated + trailingWhitespace;
       }
     }
-  } else if (node.nodeType === 1) {
-    const children = Array.from(node.childNodes);
-    for (const child of children) {
-      await translateNode(child);
-    }
+  } catch (error) {
+    console.error('[TranslateNode] Error:', error);
   }
 }
 
-function translateAttributes(element) {
+async function translateAttributes(element) {
   const attributesToTranslate = ['alt', 'title', 'placeholder', 'aria-label', 'aria-description'];
+  const attrsToTranslate = [];
+  const attrInfos = [];
+  
   attributesToTranslate.forEach(attr => {
     if (element.hasAttribute(attr)) {
       const value = element.getAttribute(attr);
       if (value) {
         element.setAttribute(`data-original-${attr}`, value);
-        translateText(value).then(translated => {
-          if (translated && translated !== value) {
-            element.setAttribute(attr, translated);
-          }
-        });
+        attrsToTranslate.push(value);
+        attrInfos.push({ attr, originalValue: value });
       }
     }
   });
-}
-
-const MAX_URL_LENGTH = 2000;
-const PROXY_SERVER_URL = 'http://localhost:3000/translate';
-const PROXY_SERVER_PATH = '/translate';
-
-function splitTextForTranslation(text, sourceLang, targetLang) {
-  const chunks = [];
-  let currentChunk = '';
-  const sentences = text.match(/[^.!?]+[.!?]+(\s|$)|[^.!?]+$/g) || [text];
-  for (const sentence of sentences) {
-    const testChunk = currentChunk ? currentChunk + sentence : sentence;
-    const estimatedSize = encodeURIComponent(testChunk).length + 200;
-    if (estimatedSize <= MAX_URL_LENGTH) {
-      currentChunk = testChunk;
-    } else {
-      if (currentChunk) {
-        chunks.push(currentChunk);
-      }
-      if (encodeURIComponent(sentence).length + 200 <= MAX_URL_LENGTH) {
-        currentChunk = sentence;
-      } else {
-        const words = sentence.split(/\s+/);
-        currentChunk = '';
-        for (const word of words) {
-          const testWord = currentChunk ? currentChunk + ' ' + word : word;
-          const estimatedWordSize = encodeURIComponent(testWord).length + 200;
-          if (estimatedWordSize <= MAX_URL_LENGTH) {
-            currentChunk = testWord;
-          } else {
-            if (currentChunk) {
-              chunks.push(currentChunk);
-            }
-            currentChunk = word;
-          }
-        }
-      }
-    }
+  
+  if (attrsToTranslate.length === 0) {
+    return;
   }
-  if (currentChunk) {
-    chunks.push(currentChunk);
-  }
-  return chunks;
-}
-
-async function translateText(text) {
-  const sourceLang = fromLanguage === 'auto' ? 'auto' : fromLanguage;
-  const targetLang = toLanguage;
+  
   try {
-    const chunks = splitTextForTranslation(text, sourceLang, targetLang);
-    const translatedChunks = [];
-    for (const chunk of chunks) {
-      const body = {
-        text: chunk,
-        from: sourceLang,
-        to: targetLang
-      };
-      const authHeaders = await AuthUtils.generateAuthHeaders('POST', PROXY_SERVER_PATH, body);
-      const response = await fetch(PROXY_SERVER_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          ...authHeaders
-        },
-        body: JSON.stringify(body)
-      });
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(`Proxy server error: ${response.status} - ${errorData.error || 'Unknown error'}`);
-      }
-      const data = await response.json();
-      if (data.success && data.translatedText) {
-        translatedChunks.push(data.translatedText);
-      } else {
-        translatedChunks.push(chunk);
+    const translations = await translateTextBatch(attrsToTranslate);
+    
+    for (let i = 0; i < attrInfos.length; i++) {
+      const { attr, originalValue } = attrInfos[i];
+      const translated = translations[i];
+      
+      if (translated && translated !== originalValue) {
+        element.setAttribute(attr, translated);
       }
     }
-    return translatedChunks.join('');
   } catch (error) {
-    console.error('[TranslateText] Error:', error);
-    throw error;
+    console.error('[TranslateAttributes] Error:', error);
   }
 }
 
