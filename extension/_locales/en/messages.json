@@ -24,7 +24,7 @@
     "description": "Auto-detect language option"
   },
   "selectElementBtn": {
-    "message": "📍 Select HTML Element",
+    "message": "📍 Select Page Part",
     "description": "Select element button"
   },
   "cancelBtn": {

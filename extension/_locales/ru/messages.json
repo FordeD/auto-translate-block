@@ -24,7 +24,7 @@
     "description": "Опция автоопределения языка"
   },
   "selectElementBtn": {
-    "message": "📍 Выбрать HTML элемент",
+    "message": "📍 Выбрать часть страницы",
     "description": "Кнопка выбора элемента"
   },
   "cancelBtn": {
