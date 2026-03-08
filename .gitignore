@@ -22,3 +22,6 @@ npm-debug.log*
 .env
 *.key
 
+extension.pem
+extension.crx
+
