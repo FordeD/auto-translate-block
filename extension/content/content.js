@@ -217,13 +217,13 @@ async function translateTextBatch(texts) {
 
   const authHeaders = await AuthUtils.generateAuthHeaders('POST', '/translate/batch', body);
 
-  const response = await fetch('http://localhost:3000/translate/batch', {
+  const response = await fetch('https://auto-translate-block.onrender.com/translate/batch', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      ...authHeaders
+      ...authHeaders,
     },
-    body: JSON.stringify(body)
+    body: JSON.stringify(body),
   });
 
   if (!response.ok) {
